@@ -3,6 +3,7 @@ import config from './config/config.js';
 import { connectDB } from './config/db.js';
 import usersRouter from './routes/users.router.js';
 import petsRouter from './routes/pets.router.js';
+import mocksRouter from './routes/mocks.router.js';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', usersRouter);
 app.use('/api/pets', petsRouter);
+app.use('/api/mocks', mocksRouter);
 
 try {
   await connectDB();
