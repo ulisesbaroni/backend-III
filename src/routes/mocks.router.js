@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { generatePets } from '../mocks/mocking.js';
+import { generatePets, generateUsers } from '../mocks/mocking.js';
 
 const router = Router();
 
@@ -17,6 +17,19 @@ router.get('/mockingpets', (req, res) => {
     return res.status(400).json({ status: 'error', error: `qty debe ser un entero entre 1 y ${MAX_QTY}` });
   }
   res.json({ status: 'success', payload: generatePets(qty) });
+});
+
+router.get('/mockingusers', async (req, res) => {
+  const qty = parseQty(req.query.qty, 50);
+  if (qty === null) {
+    return res.status(400).json({ status: 'error', error: `qty debe ser un entero entre 1 y ${MAX_QTY}` });
+  }
+  try {
+    const users = await generateUsers(qty);
+    res.json({ status: 'success', payload: users });
+  } catch (error) {
+    res.status(500).json({ status: 'error', error: error.message });
+  }
 });
 
 export default router;
